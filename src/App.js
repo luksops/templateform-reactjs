@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormularioCadastro from './components/FormularioCadastro';
+import RegistrationForm from './components/RegistrationForm';
 import { Container, Typography } from '@material-ui/core';
 import 'fontsource-roboto';
 import './App.css';
@@ -11,14 +11,10 @@ class App extends Component {
 				<Typography component='h1' variant='h3' align='center'>
 					Registration Form
 				</Typography>
-				<FormularioCadastro onSubmit={onSubmitForm} verifyCPF={verifyCPF} />
+				<RegistrationForm verifyCPF={verifyCPF} />
 			</Container>
 		);
 	}
-}
-
-function onSubmitForm(data) {
-	console.log(data);
 }
 
 function verifyCPF(cpf) {

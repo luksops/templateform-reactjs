@@ -6,7 +6,7 @@ import {
 	FormControlLabel,
 } from '@material-ui/core';
 
-export default function FormularioCadastro({ onSubmit, verifyCPF }) {
+export default function PersonalData({ nextPage, verifyCPF }) {
 	const [error, setError] = useState({ cpf: { valid: false, text: '' } });
 	const [name, setName] = useState('');
 	const [surname, setSurame] = useState('');
@@ -18,7 +18,7 @@ export default function FormularioCadastro({ onSubmit, verifyCPF }) {
 		<form
 			onSubmit={(event) => {
 				event.preventDefault();
-				onSubmit({ name, surname, cpf, promotions, newsletter });
+				nextPage({ name, surname, cpf, promotions, newsletter });
 			}}
 		>
 			<TextField
@@ -37,6 +37,7 @@ export default function FormularioCadastro({ onSubmit, verifyCPF }) {
 				variant='outlined'
 				fullWidth
 				margin='normal'
+				required
 			/>
 			<TextField
 				onChange={(event) => {
@@ -54,6 +55,7 @@ export default function FormularioCadastro({ onSubmit, verifyCPF }) {
 				variant='outlined'
 				fullWidth
 				margin='normal'
+				required
 			/>
 			<TextField
 				onChange={(event) => setCpf(event.target.value)}
@@ -64,11 +66,13 @@ export default function FormularioCadastro({ onSubmit, verifyCPF }) {
 				error={error.cpf.valid}
 				helperText={error.cpf.text}
 				value={cpf}
+				type='number'
 				id='cpf'
 				label='CPF'
 				variant='outlined'
 				fullWidth
 				margin='normal'
+				required
 			/>
 			<FormControlLabel
 				label='Promotions'
