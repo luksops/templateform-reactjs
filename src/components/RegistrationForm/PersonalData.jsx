@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	TextField,
@@ -6,19 +6,50 @@ import {
 	FormControlLabel,
 } from '@material-ui/core';
 
-export default function PersonalData({ nextPage, verifyCPF }) {
-	const [error, setError] = useState({ cpf: { valid: false, text: '' } });
-	const [name, setName] = useState('');
-	const [surname, setSurame] = useState('');
-	const [cpf, setCpf] = useState('');
-	const [promotions, setPromotions] = useState(true);
-	const [newsletter, setNewsletter] = useState(true);
+export default function PersonalData({ nextPage, validations }) {
+	const [userError, setError] = useState({
+		cpf: { valid: true, text: '' },
+		name: { valid: true, text: '' },
+		surname: { valid: true, text: '' },
+	});
+	const [userName, setName] = useState('');
+	const [userSurname, setSurame] = useState('');
+	const [userCPF, setCpf] = useState('');
+	const [userPromotions, setPromotions] = useState(true);
+	const [userNewsletter, setNewsletter] = useState(true);
+
+	useEffect(() => {
+		console.log(isValid());
+		console.log(userError);
+	});
+
+	function validateField(event) {
+		const { name, value } = event.target;
+		let isValid = validations[name](value);
+		let newError = { ...userError, [name]: isValid };
+		setError(newError);
+	}
+
+	function isValid() {
+		for (let field in userError) {
+			if (!userError[field].valid) return false;
+		}
+		return true;
+	}
 
 	return (
 		<form
 			onSubmit={(event) => {
 				event.preventDefault();
-				nextPage({ name, surname, cpf, promotions, newsletter });
+				if (isValid()) {
+					nextPage({
+						userName,
+						userSurname,
+						userCPF,
+						userPromotions,
+						userNewsletter,
+					});
+				}
 			}}
 		>
 			<TextField
@@ -31,7 +62,11 @@ export default function PersonalData({ nextPage, verifyCPF }) {
 						].join('')
 					);
 				}}
-				value={name}
+				onBlur={validateField}
+				value={userName}
+				name='name'
+				error={!userError.name.valid}
+				helperText={userError.name.text}
 				id='name'
 				label='Name'
 				variant='outlined'
@@ -49,7 +84,11 @@ export default function PersonalData({ nextPage, verifyCPF }) {
 						].join('')
 					);
 				}}
-				value={surname}
+				onBlur={validateField}
+				error={!userError.surname.valid}
+				helperText={userError.surname.text}
+				value={userSurname}
+				name='surname'
 				id='surname'
 				label='Surname'
 				variant='outlined'
@@ -59,13 +98,11 @@ export default function PersonalData({ nextPage, verifyCPF }) {
 			/>
 			<TextField
 				onChange={(event) => setCpf(event.target.value)}
-				onBlur={(event) => {
-					let validation = verifyCPF(cpf);
-					setError({ cpf: validation });
-				}}
-				error={error.cpf.valid}
-				helperText={error.cpf.text}
-				value={cpf}
+				onBlur={validateField}
+				error={!userError.cpf.valid}
+				helperText={userError.cpf.text}
+				value={userCPF}
+				name='cpf'
 				type='number'
 				id='cpf'
 				label='CPF'
@@ -76,12 +113,13 @@ export default function PersonalData({ nextPage, verifyCPF }) {
 			/>
 			<FormControlLabel
 				label='Promotions'
+				name='promotions'
 				control={
 					<Checkbox
 						onChange={(event) => {
 							setPromotions(event.target.checked);
 						}}
-						checked={promotions}
+						checked={userPromotions}
 						color='primary'
 						name='Promotions'
 					/>
@@ -90,20 +128,20 @@ export default function PersonalData({ nextPage, verifyCPF }) {
 
 			<FormControlLabel
 				label='Newsletter'
+				name='newsletter'
 				control={
 					<Checkbox
-						checked={newsletter}
+						checked={userNewsletter}
 						color='primary'
 						onChange={(event) => {
 							setNewsletter(event.target.checked);
 						}}
 					/>
 				}
-				name='Newsletter'
 			/>
 
 			<Button variant='contained' color='primary' type='submit'>
-				Register
+				Next
 			</Button>
 		</form>
 	);

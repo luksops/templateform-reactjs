@@ -4,7 +4,7 @@ import DeliveryData from './DeliveryData';
 import PersonalData from './PersonalData';
 import UserData from './UserData';
 
-export default function RegistrationForm({ verifyCPF }) {
+export default function RegistrationForm({ validations }) {
 	const [page, setPage] = useState(0);
 	const [dataCollected, setDataCollected] = useState({});
 	useEffect(() => {
@@ -12,9 +12,9 @@ export default function RegistrationForm({ verifyCPF }) {
 	});
 
 	const pages = [
-		<UserData nextPage={collectData} />,
-		<PersonalData nextPage={collectData} verifyCPF={verifyCPF} />,
-		<DeliveryData nextPage={collectData} />,
+		<UserData nextPage={collectData} validations={validations} />,
+		<PersonalData nextPage={collectData} validations={validations} />,
+		<DeliveryData nextPage={collectData} validations={validations} />,
 		<Typography variant='h5'> Thank You!</Typography>,
 	];
 

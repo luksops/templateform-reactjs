@@ -18,6 +18,7 @@ export default function DeliveryData({ nextPage }) {
 				onChange={(event) => {
 					setAdress(event.target.value);
 				}}
+				name='adress'
 				type='text'
 				id='Adress'
 				label='Adress'
@@ -31,6 +32,7 @@ export default function DeliveryData({ nextPage }) {
 					setPostCode(event.target.value);
 				}}
 				type='text'
+				name='postcode'
 				id='PostCode'
 				label='Post Code'
 				variant='outlined'
@@ -43,6 +45,7 @@ export default function DeliveryData({ nextPage }) {
 					setCounty(event.target.value);
 				}}
 				type='text'
+				name='county'
 				id='County'
 				label='County'
 				variant='outlined'
@@ -55,6 +58,7 @@ export default function DeliveryData({ nextPage }) {
 					setCity(event.target.value);
 				}}
 				type='text'
+				name='city'
 				id='City'
 				label='City'
 				variant='outlined'

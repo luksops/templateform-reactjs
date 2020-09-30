@@ -1,6 +1,6 @@
 # About the app
 
-Controlled registration form template in React.js, using hooks and function components.
+This application is a form template styled with material-ui library and completely controlled by function components, integrated with useEffect, useState and useContex hooks to create an interactive single page application that is ready to export data.
 
 # Run the app
 

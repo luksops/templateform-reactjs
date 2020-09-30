@@ -1,15 +1,34 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 
-const UserData = ({ nextPage }) => {
+const UserData = ({ nextPage, validations }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [userError, setError] = useState({
+		password: { valid: true, text: '' },
+	});
+
+	function validateField(event) {
+		const { name, value } = event.target;
+		let isValid = validations[name](value);
+		let newError = { ...userError, [name]: isValid };
+		setError(newError);
+	}
+
+	function isValid() {
+		for (let field in userError) {
+			if (!userError[field].valid) return false;
+		}
+		return true;
+	}
 
 	return (
 		<form
 			onSubmit={(event) => {
 				event.preventDefault();
-				nextPage({ email, password });
+				if (isValid()) {
+					nextPage({ email, password });
+				}
 			}}
 		>
 			<TextField
@@ -17,6 +36,7 @@ const UserData = ({ nextPage }) => {
 					setEmail(event.target.value);
 				}}
 				type='email'
+				name='email'
 				id='email'
 				label='Email'
 				variant='outlined'
@@ -28,7 +48,11 @@ const UserData = ({ nextPage }) => {
 				onChange={(event) => {
 					setPassword(event.target.value);
 				}}
+				onBlur={validateField}
+				error={!userError.password.valid}
+				helperText={userError.password.text}
 				type='password'
+				name='password'
 				id='password'
 				label='Password'
 				variant='outlined'
@@ -37,7 +61,7 @@ const UserData = ({ nextPage }) => {
 				required
 			/>
 			<Button variant='contained' color='primary' type='submit'>
-				Register
+				Login
 			</Button>
 		</form>
 	);
