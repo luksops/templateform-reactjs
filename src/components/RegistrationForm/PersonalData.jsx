@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	Button,
 	TextField,
 	Checkbox,
 	FormControlLabel,
 } from '@material-ui/core';
+import ValidationContext from './contexts/ValidationContext';
 
-export default function PersonalData({ nextPage, validations }) {
+export default function PersonalData({ nextPage }) {
 	const [userError, setError] = useState({
 		cpf: { valid: true, text: '' },
 		name: { valid: true, text: '' },
@@ -18,10 +19,7 @@ export default function PersonalData({ nextPage, validations }) {
 	const [userPromotions, setPromotions] = useState(true);
 	const [userNewsletter, setNewsletter] = useState(true);
 
-	useEffect(() => {
-		console.log(isValid());
-		console.log(userError);
-	});
+	const validations = useContext(ValidationContext);
 
 	function validateField(event) {
 		const { name, value } = event.target;

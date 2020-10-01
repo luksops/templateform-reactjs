@@ -1,6 +1,6 @@
 # About the app
 
-This application is a form template styled with material-ui library and completely controlled by function components, integrated with useEffect, useState and useContex hooks to create an interactive single page application that is ready to export data.
+This application is a form template styled with material-ui library and completely controlled by function components, using React Hooks (useEffect, useState and useContext) to create an interactive single page application that is ready to export data.
 
 # Run the app
 

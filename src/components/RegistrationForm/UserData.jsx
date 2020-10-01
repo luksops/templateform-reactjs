@@ -1,12 +1,15 @@
 import { Button, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ValidationContext from './contexts/ValidationContext';
 
-const UserData = ({ nextPage, validations }) => {
+const UserData = ({ nextPage }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userError, setError] = useState({
 		password: { valid: true, text: '' },
 	});
+
+	const validations = useContext(ValidationContext);
 
 	function validateField(event) {
 		const { name, value } = event.target;
