@@ -5,35 +5,18 @@ import {
 	Checkbox,
 	FormControlLabel,
 } from '@material-ui/core';
-import ValidationContext from './contexts/ValidationContext';
+import ValidationContext from '../contexts/ValidationContext';
+import useError from '../hooks/useError';
 
 export default function PersonalData({ nextPage }) {
-	const [userError, setError] = useState({
-		cpf: { valid: true, text: '' },
-		name: { valid: true, text: '' },
-		surname: { valid: true, text: '' },
-	});
 	const [userName, setName] = useState('');
 	const [userSurname, setSurame] = useState('');
 	const [userCPF, setCpf] = useState('');
 	const [userPromotions, setPromotions] = useState(true);
 	const [userNewsletter, setNewsletter] = useState(true);
-
 	const validations = useContext(ValidationContext);
 
-	function validateField(event) {
-		const { name, value } = event.target;
-		let isValid = validations[name](value);
-		let newError = { ...userError, [name]: isValid };
-		setError(newError);
-	}
-
-	function isValid() {
-		for (let field in userError) {
-			if (!userError[field].valid) return false;
-		}
-		return true;
-	}
+	const [userError, validateField, isValid] = useError(validations);
 
 	return (
 		<form
