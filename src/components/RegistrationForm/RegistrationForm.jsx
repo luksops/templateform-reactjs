@@ -1,29 +1,26 @@
-import { Step, StepLabel, Stepper, Typography } from '@material-ui/core';
+import { Step, StepLabel, Stepper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import useExportData from '../hooks/useExportData';
 import DeliveryData from './DeliveryData';
 import PersonalData from './PersonalData';
 import UserData from './UserData';
+import FinishScreen from './FinishScreen/FinishScreen';
 
 export default function RegistrationForm({ validations }) {
 	const [page, setPage] = useState(0);
-	const [dataCollected, setDataCollected] = useState({});
-	useEffect(() => {
-		console.log(dataCollected);
-	});
+	const [updateData, exportData] = useExportData(page);
+
+	useEffect(exportData);
 
 	const pages = [
-		<UserData nextPage={collectData} validations={validations} />,
-		<PersonalData nextPage={collectData} validations={validations} />,
-		<DeliveryData nextPage={collectData} validations={validations} />,
-		<Typography variant='h5'> Thank You!</Typography>,
+		<UserData nextPage={nextPage} validations={validations} />,
+		<PersonalData nextPage={nextPage} validations={validations} />,
+		<DeliveryData nextPage={nextPage} validations={validations} />,
+		<FinishScreen />,
 	];
 
-	function collectData(data) {
-		setDataCollected({ ...dataCollected, ...data });
-		nextPage();
-	}
-
-	function nextPage() {
+	function nextPage(data) {
+		updateData(data);
 		setPage(page + 1);
 	}
 
@@ -48,6 +45,4 @@ export default function RegistrationForm({ validations }) {
 	);
 }
 
-//
-//
-//
+/**/
